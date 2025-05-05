@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { GlobalExceptionFilter } from 'src/core/filters/global.filter';
 import * as express from 'express';
+import * as cookieparser from 'cookie-parser';
 // import { AuthModule } from './api/auth/auth.module';
 // import { AuthGuard } from './api/auth/guards/auth.guard';
 
@@ -22,6 +23,7 @@ async function bootstrap() {
   ];
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+  app.use(cookieparser());
   app.disable('x-powered-by');
 
   app.enableCors({
