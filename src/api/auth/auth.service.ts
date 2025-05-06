@@ -22,6 +22,7 @@ import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EventNames } from 'src/shared/events/enums';
 import { SendMail } from 'src/shared/mail/interfaces';
+import { RoleNames } from '../user/enums';
 
 @Injectable()
 export class AuthService {
@@ -90,6 +91,7 @@ export class AuthService {
       phoneNumber,
       department,
       college,
+      role: RoleNames.User,
     });
 
     await this.authModel.create({

@@ -8,6 +8,7 @@ import {
   SignUpDto,
 } from './dto';
 import { Response } from 'express';
+import { IsPublic } from 'src/shared/decorators/auth.decorators';
 
 @Controller('authentication')
 @ApiTags('authentication')
@@ -15,6 +16,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-up')
+  @IsPublic()
   async signUp(@Body() body: SignUpDto, @Res() res: Response) {
     const access_token = await this.authService.signUp(body);
 
@@ -32,6 +34,7 @@ export class AuthController {
   }
 
   @Post('sign-in')
+  @IsPublic()
   async signIn(@Body() body: SignInDto, @Res() res: Response) {
     const access_token = await this.authService.signIn(body);
 
@@ -49,11 +52,13 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @IsPublic()
   async forgotPassword(@Body() body: ForgotPasswordDto) {
     return await this.authService.forgotPassword(body);
   }
 
   @Post('reset-password')
+  @IsPublic()
   async resetPassword(@Body() body: ResetPasswordDto) {
     return await this.authService.resetPassword(body);
   }

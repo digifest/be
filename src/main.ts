@@ -8,8 +8,8 @@ import { ConfigService } from '@nestjs/config';
 import { GlobalExceptionFilter } from 'src/core/filters/global.filter';
 import * as express from 'express';
 import * as cookieparser from 'cookie-parser';
-// import { AuthModule } from './api/auth/auth.module';
-// import { AuthGuard } from './api/auth/guards/auth.guard';
+import { AuthModule } from './api/auth/auth.module';
+import { AuthGuard } from './api/auth/guards/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -48,8 +48,8 @@ async function bootstrap() {
   const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new GlobalExceptionFilter(httpAdapterHost));
 
-  //   const authGuard = app.select(AuthModule).get(AuthGuard);
-  //   app.useGlobalGuards(authGuard);
+  const authGuard = app.select(AuthModule).get(AuthGuard);
+  app.useGlobalGuards(authGuard);
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Digifest API')

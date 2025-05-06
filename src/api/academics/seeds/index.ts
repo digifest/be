@@ -1,0 +1,115 @@
+export const COLLEGES_AND_DEPARTMENTS = [
+  {
+    name: 'College of Agricultural Management and Rural Development',
+    acronym: 'COLAMRUD',
+    level: 5,
+    departments: [
+      { name: 'Agricultural Economics and Farm Management', acronym: 'AEFM' },
+      { name: 'Agricultural Extension and Rural Development', acronym: 'AERD' },
+      { name: 'Agricultural Administration', acronym: 'AGAD' },
+    ],
+  },
+  {
+    name: 'College of Animal Science and Livestock Production',
+    acronym: 'COLANIM',
+    level: 5,
+    departments: [
+      { name: 'Animal Breeding and Genetics', acronym: 'ABG' },
+      { name: 'Animal Nutrition', acronym: 'ANN' },
+      { name: 'Animal Physiology', acronym: 'APH' },
+      { name: 'Animal Production and Health', acronym: 'APH' },
+      { name: 'Pasture and Range Management', acronym: 'PRM' },
+    ],
+  },
+  {
+    name: 'College of Biosciences',
+    acronym: 'COLBIOS',
+    level: 4,
+    departments: [
+      { name: 'Biochemistry', acronym: 'BCH' },
+      { name: 'Microbiology', acronym: 'MCB' },
+      { name: 'Pure and Applied Botany', acronym: 'PAB' },
+      { name: 'Pure and Applied Zoology', acronym: 'PAZ' },
+    ],
+  },
+  {
+    name: 'College of Engineering',
+    acronym: 'COLENG',
+    level: 5,
+    departments: [
+      { name: 'Agricultural Engineering', acronym: 'ABE' },
+      { name: 'Civil Engineering', acronym: 'CVE' },
+      { name: 'Electrical and Electronics Engineering', acronym: 'ELE' },
+      { name: 'Mechanical Engineering', acronym: 'MCE' },
+      { name: 'Mechatronics Engineering', acronym: 'MTE' },
+    ],
+  },
+  {
+    name: 'College of Entrepreneurial and Development Studies',
+    acronym: 'COLENDS',
+    level: 5,
+    departments: [{ name: 'Entrepreneurial Studies', acronym: 'ETS' }],
+  },
+  {
+    name: 'College of Environmental Resources Management',
+    acronym: 'COLERM',
+    level: 5,
+    departments: [
+      { name: 'Aquaculture and Fisheries Management', acronym: 'AFM' },
+      { name: 'Environmental Management and Toxicology', acronym: 'EMT' },
+      { name: 'Forestry and Wildlife Management', acronym: 'FWM' },
+      {
+        name: 'Water Resources Management and Agrometeorology',
+        acronym: 'WRM',
+      },
+    ],
+  },
+  {
+    name: 'College of Food Science and Human Ecology',
+    acronym: 'COLFHEC',
+    level: 4,
+    departments: [
+      { name: 'Food Science and Technology', acronym: 'FST' },
+      { name: 'Home Science and Management', acronym: 'HSM' },
+      { name: 'Hospitality and Tourism', acronym: 'HTM' },
+      { name: 'Nutrition and Dietetics', acronym: 'NTD' },
+    ],
+  },
+  {
+    name: 'College of Physical Sciences',
+    acronym: 'COLPHYS',
+    level: 4,
+    departments: [
+      { name: 'Chemistry', acronym: 'CHM' },
+      { name: 'Computer Science', acronym: 'CSC' },
+      { name: 'Mathematics', acronym: 'MTS' },
+      { name: 'Physics', acronym: 'PHY' },
+      { name: 'Statistics', acronym: 'STS' },
+    ],
+  },
+  {
+    name: 'College of Plant Science and Crop Production',
+    acronym: 'COLPLANT',
+    level: 5,
+    departments: [
+      { name: 'Crop Protection', acronym: 'CPT' },
+      { name: 'Horticulture', acronym: 'HRT' },
+      { name: 'Plant Breeding and Seed Technology', acronym: 'PBST' },
+      { name: 'Plant Physiology and Crop Production', acronym: 'PPCP' },
+      { name: 'Soil Science and Land Management', acronym: 'SSLM' },
+    ],
+  },
+  {
+    name: 'College of Veterinary Medicine',
+    acronym: 'COLVET',
+    level: 6,
+    departments: [
+      { name: 'Veterinary Anatomy', acronym: 'VAN' },
+      { name: 'Veterinary Physiology and Pharmacology', acronym: 'VPP' },
+      { name: 'Veterinary Pathology', acronym: 'VPT' },
+      { name: 'Veterinary Microbiology and Parasitology', acronym: 'VMP' },
+      { name: 'Veterinary Medicine and Surgery', acronym: 'VMS' },
+      { name: 'Veterinary Public Health and Reproduction', acronym: 'VPHR' },
+    ],
+  },
+];
