@@ -22,7 +22,7 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: true,
+      secure: false,
       httpOnly: true,
       path: '/',
       sameSite: 'none',
@@ -42,7 +42,7 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: true,
+      secure: false,
       httpOnly: true,
       path: '/',
       sameSite: 'none',
