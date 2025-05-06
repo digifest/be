@@ -38,7 +38,29 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly eventEmitter: EventEmitter2,
-  ) {}
+  ) {
+    this.seedAdmin();
+  }
+
+  private async seedAdmin() {
+    const admin = await this.userModel.findOne({ role: RoleNames.Admin });
+
+    if (!admin) {
+      const hashedPassword = await this.utilService.hashPassword('digifest');
+      const user = await this.userModel.create({
+        firstName: 'Digifest',
+        lastName: 'Admin',
+        email: 'admin@digifest.com',
+        role: RoleNames.Admin,
+      });
+
+      await this.authModel.create({
+        user: user?._id,
+        password: hashedPassword,
+        password_history: [hashedPassword],
+      });
+    }
+  }
 
   private async upsertToken(
     filter: FilterQuery<Token>,
