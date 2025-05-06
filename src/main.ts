@@ -17,6 +17,7 @@ async function bootstrap() {
 
   const allowedOrigins = [
     'http://localhost:3000',
+    'http://localhost:3000/admin',
     'https://glistening-achiever-rotten-shock-production.pipeops.app',
     'https://frontend-4cx6.onrender.com',
     'https://bdmeds-frontend.onrender.com',
@@ -55,6 +56,7 @@ async function bootstrap() {
     .setTitle('Digifest API')
     .setDescription('Digifest API Documentation')
     .setVersion('1.0.0')
+    .addBearerAuth()
     .addBearerAuth()
     .build();
 

@@ -17,42 +17,14 @@ export class AuthController {
 
   @Post('sign-up')
   @IsPublic()
-  async signUp(@Body() body: SignUpDto, @Res() res: Response) {
-    const access_token = await this.authService.signUp(body);
-
-    res.cookie('access_token', access_token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: true,
-      httpOnly: true,
-      path: '/',
-      sameSite: 'none',
-      partitioned: true,
-    });
-
-    return res.status(200).json({
-      message: 'Sign up successful',
-      success: true,
-    });
+  async signUp(@Body() body: SignUpDto) {
+    return await this.authService.signUp(body);
   }
 
   @Post('sign-in')
   @IsPublic()
-  async signIn(@Body() body: SignInDto, @Res() res: Response) {
-    const access_token = await this.authService.signIn(body);
-
-    res.cookie('access_token', access_token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: true,
-      httpOnly: true,
-      path: '/',
-      sameSite: 'none',
-      partitioned: true,
-    });
-
-    return res.status(200).json({
-      message: 'Sign in successful',
-      success: true,
-    });
+  async signIn(@Body() body: SignInDto) {
+    return await this.authService.signIn(body);
   }
 
   @Post('forgot-password')

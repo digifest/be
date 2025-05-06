@@ -124,7 +124,11 @@ export class AuthService {
 
     const access_token = await this.signJwtToken(user._id);
 
-    return access_token;
+    return {
+      success: true,
+      message: 'Sign Up Successful',
+      data: { access_token },
+    };
   }
 
   async signIn(body: SignInDto) {
@@ -157,7 +161,11 @@ export class AuthService {
 
     const access_token = await this.signJwtToken(user._id);
 
-    return access_token;
+    return {
+      success: true,
+      message: 'Sign In Successful',
+      data: { access_token },
+    };
   }
 
   async forgotPassword(body: ForgotPasswordDto) {

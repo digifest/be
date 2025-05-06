@@ -34,11 +34,12 @@ export class AuthGuard implements CanActivate {
     if (is_public_route) return true;
 
     const request = context.switchToHttp().getRequest<Request>();
-    const access_token = request.cookies['access_token'];
+    const access_token = request.headers['authorization']?.split(' ')?.[1];
+
     if (!access_token) throw new UnauthorizedException('Unauthorized');
 
     const decoded_token = await this.jwtService.verifyAsync<{ userId: string }>(
-      access_token,
+      access_token as string,
     );
 
     if (!decoded_token) throw new UnauthorizedException('Unauthorized');
