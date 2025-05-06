@@ -22,9 +22,11 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: true,
       httpOnly: true,
+      path: '/',
+      sameSite: 'none',
       partitioned: true,
-      secure: false,
     });
 
     return res.status(200).json({
@@ -40,9 +42,11 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: true,
       httpOnly: true,
+      path: '/',
+      sameSite: 'none',
       partitioned: true,
-      secure: false,
     });
 
     return res.status(200).json({
