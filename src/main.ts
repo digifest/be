@@ -15,13 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
 
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3000/admin',
-    'https://glistening-achiever-rotten-shock-production.pipeops.app',
-    'https://frontend-4cx6.onrender.com',
-    'https://bdmeds-frontend.onrender.com',
-  ];
+  const allowedOrigins = ['http://localhost:3000'];
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ extended: false, limit: '50mb' }));
   app.use(cookieparser());
@@ -29,7 +23,6 @@ async function bootstrap() {
 
   app.enableCors({
     origin: allowedOrigins,
-    credentials: true,
   });
 
   app.useGlobalPipes(
