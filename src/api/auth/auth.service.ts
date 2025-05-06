@@ -168,7 +168,7 @@ export class AuthService {
       },
     );
 
-    const link = `${this.configService.get<string>('FRONTED_URL')}/reset-password?token=${token}&credential=${user?.email}&credential_type=email`;
+    const link = `${this.configService.get<string>('FRONTEND_URL')}/reset-password?token=${token}&credential=${user?.email}&credential_type=email`;
 
     const emailDto: SendMail = {
       to: user?.email,
