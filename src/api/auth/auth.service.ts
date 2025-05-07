@@ -256,4 +256,21 @@ export class AuthService {
       message: 'Password reset successfully',
     };
   }
+
+  async signOut(userId: string) {
+    await this.authModel.updateOne(
+      { user: userId },
+      {
+        $unset: {
+          access_token: '',
+          access_token_expires: '',
+        },
+      },
+    );
+
+    return {
+      success: true,
+      message: 'signed out',
+    };
+  }
 }

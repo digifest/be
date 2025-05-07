@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import {
@@ -8,7 +8,7 @@ import {
   SignUpDto,
 } from './dto';
 import { Response } from 'express';
-import { IsPublic } from 'src/shared/decorators/auth.decorators';
+import { Auth, IsPublic } from 'src/shared/decorators/auth.decorators';
 
 @Controller('authentication')
 @ApiTags('authentication')
@@ -37,5 +37,10 @@ export class AuthController {
   @IsPublic()
   async resetPassword(@Body() body: ResetPasswordDto) {
     return await this.authService.resetPassword(body);
+  }
+
+  @Get('sign-out')
+  async signOut(@Auth('_id') userId: string) {
+    return await this.authService.signOut(userId);
   }
 }
