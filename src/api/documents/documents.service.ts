@@ -53,6 +53,7 @@ export class DocumentService {
       document_type,
       semester_index,
       description,
+      byte_size: file?.size,
     });
 
     return {

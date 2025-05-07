@@ -29,6 +29,9 @@ export class Document extends DbMixins {
   @Prop()
   mime_type: string;
 
+  @Prop()
+  byte_size: number;
+
   @Prop({
     type: String,
     enum: Object.values(DocType),
