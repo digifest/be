@@ -138,6 +138,9 @@ export class DocumentService {
           .skip(offset)
           .populate('uploaded_by', 'firstName lastName email role')
           .populate('department', '-college');
+
+    const metrics = await this.getDocumentsMetrics(_query);
+
     return {
       message: 'Documents fetched',
       success: true,
@@ -146,7 +149,57 @@ export class DocumentService {
         totalPages,
         count,
         page: page,
+        metrics,
       },
     };
+  }
+
+  async getDocumentsMetrics(query: FilterQuery<Document>) {
+    const levels = [100, 200, 300, 400, 500, 600];
+    const categories = await this.documentModel.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: '$document_type',
+          total: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          category: '$_id',
+          total: 1,
+        },
+      },
+    ]);
+
+    const db_document_by_levels = await this.documentModel.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $group: {
+          _id: '$level',
+          total: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          level: '$_id',
+          total: 1,
+        },
+      },
+    ]);
+
+    const document_by_levels = [];
+    for (const level of levels) {
+      const db_level = db_document_by_levels.find((r) => r.level == level);
+
+      document_by_levels.push({
+        level,
+        total: db_level?.total ?? 0,
+      });
+    }
   }
 }
