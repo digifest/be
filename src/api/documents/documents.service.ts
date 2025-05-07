@@ -22,15 +22,7 @@ export class DocumentService {
   ) {}
 
   async createDocument(body: CreateDocumentDto, user_id: string) {
-    const {
-      name,
-      department,
-      description,
-      level,
-      document_type,
-      file,
-      semester_index,
-    } = body;
+    const { name, department, description, document_type, file, course } = body;
 
     const { secure_url, public_id } = await this.fileService.uploadBuffer(
       file.buffer,
@@ -44,14 +36,13 @@ export class DocumentService {
 
     const data = await this.documentModel.create({
       name: name ?? file.originalname,
-      level,
+      course,
       department,
       url: secure_url,
       upload_id: public_id,
       uploaded_by: user_id,
       mime_type: file_type ?? file.mimetype,
       document_type,
-      semester_index,
       description,
       byte_size: file?.size,
     });
@@ -79,7 +70,7 @@ export class DocumentService {
     }
 
     if (query.level) {
-      _query.level = query.level;
+      _query['course.level'] = query.level;
       delete query.level;
     }
 
@@ -94,7 +85,7 @@ export class DocumentService {
     }
 
     if (query.semester_index) {
-      _query.semester_index = query.semester_index;
+      _query['course.semester_index'] = query.semester_index;
       delete query.semester_index;
     }
 
@@ -126,19 +117,43 @@ export class DocumentService {
     const { totalPages, offset, limit, page } =
       this.utilService.getPaginationData(paginationQuery, count);
 
-    const data = !isEmpty(paginationQuery)
-      ? await this.documentModel
-          .find(_query)
-          .sort(sortQuery)
-          .populate('uploaded_by', 'firstName lastName email role')
-          .populate('department', '-college')
-      : await this.documentModel
-          .find(_query)
-          .sort(sortQuery)
-          .limit(limit)
-          .skip(offset)
-          .populate('uploaded_by', 'firstName lastName email role')
-          .populate('department', '-college');
+    const data = await this.documentModel.aggregate([
+      {
+        $lookup: {
+          from: 'departments',
+          as: 'department',
+          localField: 'department',
+          foreignField: '_id',
+        },
+      },
+      {
+        $unwind: {
+          path: '$department',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'courses',
+          as: 'course',
+          localField: 'course',
+          foreignField: '_id',
+        },
+      },
+      {
+        $unwind: {
+          path: '$course',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $match: _query,
+      },
+      { $sort: sortQuery as any },
+      ...(!isEmpty(paginationQuery)
+        ? [{ $skip: offset }, { $limit: limit }]
+        : []),
+    ]);
 
     const metrics = await this.getDocumentsMetrics(_query);
 

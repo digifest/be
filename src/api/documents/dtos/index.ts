@@ -6,8 +6,8 @@ export class CreateDocumentDto {
   @IsString(true)
   name: string;
 
-  @IsNumber(false)
-  level: number;
+  @IsString(true)
+  course: string;
 
   @IsString(true)
   department: string;
@@ -17,9 +17,6 @@ export class CreateDocumentDto {
 
   @IsEnum(DocType, false)
   document_type: DocType;
-
-  @IsNumber(false)
-  semester_index: number;
 
   @IsString(true)
   description: string;
