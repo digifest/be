@@ -200,9 +200,24 @@ export class DocumentService {
       {
         $match: query,
       },
+
+      {
+        $lookup: {
+          from: 'courses',
+          as: 'course',
+          localField: 'course',
+          foreignField: '_id',
+        },
+      },
+      {
+        $unwind: {
+          path: '$course',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
       {
         $group: {
-          _id: '$level',
+          _id: '$course.level',
           total: { $sum: 1 },
         },
       },
