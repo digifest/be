@@ -1,8 +1,5 @@
 export interface PaginationQuery {
-   page: number;
-   limit: number;
-}
-
-export interface ResolvePaginationQuery extends PaginationQuery {
-   count: number;
+  page?: number;
+  limit?: number;
+  search?: string;
 }

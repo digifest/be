@@ -1,5 +1,5 @@
 import { IsEnum, IsNumber, IsString } from 'src/shared/decorators';
-import { DocType } from '../enums';
+import { DocType, SortType } from '../enums';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDocumentDto {
@@ -23,4 +23,30 @@ export class CreateDocumentDto {
 
   @IsString(true)
   description: string;
+}
+
+export class GetDocumentsQuery {
+  @IsString(true)
+  search?: string;
+
+  @IsNumber(true)
+  level?: number;
+
+  @IsString(true)
+  department?: string;
+
+  @IsEnum(DocType, true)
+  document_type: DocType;
+
+  @IsNumber(true)
+  semester_index?: number;
+
+  @IsNumber(true)
+  page?: number;
+
+  @IsNumber(true)
+  limit?: number;
+
+  @IsEnum(SortType, true)
+  sort?: SortType;
 }

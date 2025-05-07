@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document } from './schemas/document.schema';
-import { Model } from 'mongoose';
+import { FilterQuery, Model, SortOrder } from 'mongoose';
 import { FileService } from 'src/shared/file/file.service';
-import { CreateDocumentDto } from './dtos';
+import { CreateDocumentDto, GetDocumentsQuery } from './dtos';
 import * as mime from 'mime-types';
 import * as path from 'path';
+import { PaginationQuery } from 'src/shared/interfaces/pagination.interface';
+import { UtilService } from 'src/shared/services/utils.service';
+import { SortType } from './enums';
+import { isEmpty } from 'lodash';
 
 @Injectable()
 export class DocumentService {
@@ -14,6 +18,7 @@ export class DocumentService {
     private readonly documentModel: Model<Document>,
 
     private readonly fileService: FileService,
+    private readonly utilService: UtilService,
   ) {}
 
   async createDocument(body: CreateDocumentDto, user_id: string) {
@@ -57,5 +62,90 @@ export class DocumentService {
     };
   }
 
-  async getDocuments() {}
+  async getDocuments(query: GetDocumentsQuery) {
+    const _query: FilterQuery<Document> = {};
+    const paginationQuery: PaginationQuery = {};
+    const sortQuery: { [key: string]: SortOrder } = {};
+
+    if (query.department) {
+      _query.department = query.department;
+      delete query.department;
+    }
+
+    if (query.document_type) {
+      _query.document_type = query.document_type;
+      delete query.document_type;
+    }
+
+    if (query.level) {
+      _query.level = query.level;
+      delete query.level;
+    }
+
+    if (query.limit) {
+      paginationQuery.limit = Number(query.limit);
+      delete query.limit;
+    }
+
+    if (query.page) {
+      paginationQuery.page = Number(query.page);
+      delete query.page;
+    }
+
+    if (query.semester_index) {
+      _query.semester_index = query.semester_index;
+      delete query.semester_index;
+    }
+
+    if (query.search) {
+      _query.name = { $regex: new RegExp(query.search, 'i') };
+      delete query.search;
+    }
+
+    switch (query.sort) {
+      case SortType.most_recent:
+        sortQuery['createdAt'] = -1;
+        break;
+      case SortType.oldest_first:
+        sortQuery['createdAt'] = 1;
+        break;
+      case SortType.a_z:
+        sortQuery['name'] = 1;
+        break;
+      case SortType.z_a:
+        sortQuery['name'] = -1;
+        break;
+      default:
+        sortQuery['createdAt'] = -1;
+        break;
+    }
+
+    const count = await this.documentModel.countDocuments(_query);
+
+    const { totalPages, offset, limit, page } =
+      this.utilService.getPaginationData(paginationQuery, count);
+
+    const data = !isEmpty(paginationQuery)
+      ? await this.documentModel
+          .find(_query)
+          .sort(sortQuery)
+          .populate('uploaded_by', 'firstName lastName email role')
+      : await this.documentModel
+          .find(_query)
+          .sort(sortQuery)
+          .limit(limit)
+          .skip(offset)
+          .populate('uploaded_by', 'firstName lastName email role');
+
+    return {
+      message: 'Documents fetched',
+      success: true,
+      data,
+      meta: {
+        totalPages,
+        count,
+        page: page,
+      },
+    };
+  }
 }
