@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 import { DocType } from '../enums';
 import { Department } from 'src/api/academics/schemas/department.schema';
 import { User } from 'src/api/user/schemas/user.schema';
+import { Course } from 'src/api/academics/schemas/course.schema';
 
 @DBSchema()
 export class Document extends DbMixins {
@@ -13,9 +14,6 @@ export class Document extends DbMixins {
 
   @Prop()
   name: string;
-
-  @Prop()
-  level: number;
 
   @Prop({ type: String, ref: Department.name })
   department: string;
@@ -45,8 +43,8 @@ export class Document extends DbMixins {
   @Prop()
   description: string;
 
-  @Prop({ enum: [1, 2], type: Number })
-  semester_index: number;
+  @Prop({ type: String, ref: Course.name })
+  course: Course;
 }
 
 export const DocumentSchema = SchemaFactory.createForClass(Document);

@@ -209,8 +209,8 @@ export class DocumentService {
       const type = db_categories.find((r) => r.category === docType);
 
       categories.push({
-        category: type.category,
-        total: type.total,
+        category: docType,
+        total: type?.total ?? 0,
       });
     }
 

@@ -1,7 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AcademicsService } from './academics.service';
-import { IsPublic } from 'src/shared/decorators/auth.decorators';
+import { IsPublic, Roles } from 'src/shared/decorators/auth.decorators';
+import { RoleNames } from '../user/enums';
+import { CreateCourseDto } from './dtos';
 
 @Controller('academics')
 @ApiTags('academics')
@@ -24,5 +26,17 @@ export class AcademicsController {
   @IsPublic()
   async getAllDepts() {
     return await this.academicsService.getAllDepts();
+  }
+
+  @Get('course')
+  @IsPublic()
+  async getCourses(@Query('department_id') department_id: string) {
+    return await this.academicsService.getCourses(department_id);
+  }
+
+  @Get('course')
+  @Roles([RoleNames.Admin])
+  async createCourse(@Body() body: CreateCourseDto) {
+    return await this.academicsService.createCourse(body);
   }
 }
