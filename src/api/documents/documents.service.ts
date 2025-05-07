@@ -130,13 +130,14 @@ export class DocumentService {
           .find(_query)
           .sort(sortQuery)
           .populate('uploaded_by', 'firstName lastName email role')
+          .populate('department', '-college')
       : await this.documentModel
           .find(_query)
           .sort(sortQuery)
           .limit(limit)
           .skip(offset)
-          .populate('uploaded_by', 'firstName lastName email role');
-
+          .populate('uploaded_by', 'firstName lastName email role')
+          .populate('department', '-college');
     return {
       message: 'Documents fetched',
       success: true,
