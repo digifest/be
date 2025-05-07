@@ -202,5 +202,7 @@ export class DocumentService {
         total: db_level?.total ?? 0,
       });
     }
+
+    return { document_by_levels, categories };
   }
 }
