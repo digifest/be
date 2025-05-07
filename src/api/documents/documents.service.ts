@@ -90,7 +90,12 @@ export class DocumentService {
     }
 
     if (query.search) {
-      _query.name = { $regex: new RegExp(query.search, 'i') };
+      const regexSearch = { $regex: new RegExp(query.search, 'i') };
+      _query.$or = [
+        { name: regexSearch },
+        { 'course.name': regexSearch },
+        { 'course.course_code': regexSearch },
+      ];
       delete query.search;
     }
 
