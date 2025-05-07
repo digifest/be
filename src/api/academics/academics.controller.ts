@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AcademicsService } from './academics.service';
 import { IsPublic, Roles } from 'src/shared/decorators/auth.decorators';
@@ -34,7 +34,7 @@ export class AcademicsController {
     return await this.academicsService.getCourses(department_id);
   }
 
-  @Get('course')
+  @Post('course')
   @Roles([RoleNames.Admin])
   async createCourse(@Body() body: CreateCourseDto) {
     return await this.academicsService.createCourse(body);
