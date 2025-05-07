@@ -14,6 +14,7 @@ import {
 } from 'class-validator';
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 import { Schema, SchemaOptions } from '@nestjs/mongoose';
+import { Transform } from 'class-transformer';
 
 export const IsString = (isOptional: boolean) => {
   const decorators = [_IsString()];
@@ -29,7 +30,7 @@ export const IsString = (isOptional: boolean) => {
 };
 
 export const IsNumber = (isOptional: boolean) => {
-  const decorators = [IsNumberString()];
+  const decorators = [_IsNumber(), Transform((v) => Number(v.value))];
 
   if (isOptional) {
     decorators.push(ApiPropertyOptional({ example: 0 }));
