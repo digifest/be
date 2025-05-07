@@ -8,7 +8,7 @@ import * as mime from 'mime-types';
 import * as path from 'path';
 import { PaginationQuery } from 'src/shared/interfaces/pagination.interface';
 import { UtilService } from 'src/shared/services/utils.service';
-import { SortType } from './enums';
+import { DocType, SortType } from './enums';
 import { isEmpty } from 'lodash';
 
 @Injectable()
@@ -157,7 +157,7 @@ export class DocumentService {
 
   async getDocumentsMetrics(query: FilterQuery<Document>) {
     const levels = [100, 200, 300, 400, 500, 600];
-    const categories = await this.documentModel.aggregate([
+    const db_categories = await this.documentModel.aggregate([
       {
         $match: query,
       },
@@ -200,6 +200,17 @@ export class DocumentService {
       document_by_levels.push({
         level,
         total: db_level?.total ?? 0,
+      });
+    }
+
+    const categories = [];
+
+    for (const docType of Object.values(DocType)) {
+      const type = db_categories.find((r) => r.category === docType);
+
+      categories.push({
+        category: type.category,
+        total: type.total,
       });
     }
 
