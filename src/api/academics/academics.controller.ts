@@ -19,4 +19,10 @@ export class AcademicsController {
   async getDepts(@Param('college_id') college_id: string) {
     return await this.academicsService.getDepts(college_id);
   }
+
+  @Get('department')
+  @IsPublic()
+  async getAllDepts() {
+    return await this.academicsService.getAllDepts();
+  }
 }

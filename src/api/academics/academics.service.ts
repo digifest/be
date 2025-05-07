@@ -41,6 +41,16 @@ export class AcademicsService {
     };
   }
 
+  async getAllDepts() {
+    const data = await this.departmentModel.find().sort({ name: -1 });
+
+    return {
+      message: 'Departments fetched',
+      success: true,
+      data,
+    };
+  }
+
   private async seedColleges() {
     const colleges = await this.collegeModel.countDocuments();
 

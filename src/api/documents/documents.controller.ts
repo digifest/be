@@ -22,7 +22,7 @@ export class DocumentsController {
   @Post()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
-  // @Roles([RoleNames.Admin])
+  @Roles([RoleNames.Admin])
   async createDocument(
     @Auth('_id') userId: string,
     @Body() body: CreateDocumentDto,
