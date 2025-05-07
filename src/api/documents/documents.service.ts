@@ -95,6 +95,7 @@ export class DocumentService {
         { name: regexSearch },
         { 'course.name': regexSearch },
         { 'course.course_code': regexSearch },
+        { 'department.acronym': regexSearch },
       ];
       delete query.search;
     }
