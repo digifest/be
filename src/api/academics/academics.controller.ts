@@ -35,7 +35,7 @@ export class AcademicsController {
   }
 
   @Post('course')
-  @Roles([RoleNames.Admin])
+  @IsPublic()
   async createCourse(@Body() body: CreateCourseDto) {
     return await this.academicsService.createCourse(body);
   }
