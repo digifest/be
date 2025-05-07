@@ -21,7 +21,7 @@ export class DocumentService {
     private readonly utilService: UtilService,
   ) {}
 
-  async createDocument(body: CreateDocumentDto, user_id: string) {
+  async createDocument(body: CreateDocumentDto) {
     const { name, department, description, document_type, file, course } = body;
 
     const { secure_url, public_id } = await this.fileService.uploadBuffer(
@@ -40,7 +40,6 @@ export class DocumentService {
       department,
       url: secure_url,
       upload_id: public_id,
-      uploaded_by: user_id,
       mime_type: file_type ?? file.mimetype,
       document_type,
       description,
